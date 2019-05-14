@@ -39,6 +39,7 @@ BEGIN_FASTDB_NAMESPACE
 dbNullReference null;
 
 char const* const dbMetaTableName = "Metatable";
+static bool disableAutoToggle = false;
 
 size_t dbDatabase::internalObjectSize[] = {
     0,
@@ -7492,6 +7493,7 @@ dbReplicatedDatabase::dbReplicatedDatabase(dbAccessType type,
     startupConnectionAttempts = dbStartupConnectionAttempts;
     replicationWriteTimeout = dbReplicationWriteTimeout;
     maxAsyncRecoveryIterations = dbMaxAsyncRecoveryIterations;
+    disableAutoToggle = false;
 }
 
 bool dbReplicatedDatabase::open(OpenParameters& params)
@@ -8103,10 +8105,11 @@ void dbReplicatedDatabase::deleteConnection(int nodeId)
         }
     }
     if (nodeId == activeNodeId) {
-        changeActiveNode();
+        if (!disableAutoToggle) {
+            changeActiveNode();
+        }
     }
 }
-
 
 void dbReplicatedDatabase::changeActiveNode()
 {
@@ -8136,6 +8139,7 @@ void dbReplicatedDatabase::changeActiveNode()
                 }
             }
         }
+
         con[id].status = ST_ACTIVE;
         {
             dbCriticalSection cs(startCS);
@@ -8218,14 +8222,18 @@ void dbReplicatedDatabase::reader()
                         }
                     } else {
                         TRACE_MSG(("Initiate change of active node %d\n", activeNodeId));
-                        changeActiveNode();
+                        if (!disableAutoToggle) {
+                            changeActiveNode();
+                        }
                     }
                 } else {
                     rr.op = ReplicationRequest::RR_GET_STATUS;
                     rr.nodeId = id;
                     if (!writeResp(activeNodeId, rr)) {
                         dbTrace("Connection with active server is lost\n");
-                        changeActiveNode();
+                        if (!disableAutoToggle) {
+                            changeActiveNode();
+                        }
                     } else {
                         TRACE_MSG(("Send GET_STATUS request to node %d\n", activeNodeId));
                         statusRequested = true;
@@ -8390,7 +8398,9 @@ void dbReplicatedDatabase::reader()
                                 con[rr.nodeId].statusEvent.signal();
                             } else if (activeNodeId < 0 && rr.nodeId < id && rr.status == ST_RECOVERED) {
                                 TRACE_MSG(("activeNodeId=%d rr.nodeId=%d, rr.status=%d\n", activeNodeId, rr.nodeId, rr.status));
-                                changeActiveNode();
+                                if (!disableAutoToggle) {
+                                    changeActiveNode();
+                                }
                             }
                             statusRequested = false;
                             break;
@@ -8398,6 +8408,9 @@ void dbReplicatedDatabase::reader()
                             TRACE_MSG(("New active node is %d\n", rr.nodeId));
                             activeNodeId = rr.nodeId;
                             statusRequested = false;
+                            if (id != activeNodeId && con[id].status == ST_ACTIVE) {
+                                con[id].status = ST_STANDBY;
+                            }
                             break;
                           case ReplicationRequest::RR_CHANGE_ACTIVE_NODE:
                             TRACE_IMSG(("Change active node to %d\n", rr.nodeId));
@@ -8892,5 +8905,46 @@ dbFileTransactionLogger::RestoreStatus dbFileTransactionLogger::restore(dbDataba
     return rsOK;
 }
 
+//////////////////////////////////////////////////////////////////////////
+int dbReplicatedDatabase::getCurrentStatus() const
+{
+    return con[id].status;
+}
+
+void dbReplicatedDatabase::activeNode()
+{
+    if (con[id].status == ST_ACTIVE) {
+        return;
+    }
+
+    ReplicationRequest rr;
+    con[id].status = ST_ACTIVE;
+    for (int i = 0; i < nServers; i++) {
+        if (con[i].status == ST_ONLINE) {
+            con[i].status = ST_STANDBY;
+            rr.op = ReplicationRequest::RR_STATUS;
+            rr.nodeId = i;
+            rr.status = ST_STANDBY;
+            TRACE_IMSG(("Send STANDBY status to node %d\n", i));
+            writeReq(i, rr);
+        } else if (con[i].status == ST_STANDBY) {
+            rr.op = ReplicationRequest::RR_CHANGE_ACTIVE_NODE;
+            rr.nodeId = id;
+            con[i].status = rr.status = ST_RECOVERED;
+            TRACE_IMSG(("Send CHANGE_ACTIVE_NODE message to node %d\n", i));
+            writeReq(i, rr);
+        }
+    }
+}
+
+void dbReplicatedDatabase::setDisableAutoToggle(bool yes)
+{
+    disableAutoToggle = yes;
+}
+
+bool dbReplicatedDatabase::isDisableAutoToggle()
+{
+    return disableAutoToggle;
+}
 
 END_FASTDB_NAMESPACE

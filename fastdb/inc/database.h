@@ -51,7 +51,7 @@ const int dbOpenPollInterval = 1000; // milliseconds
 const int dbWaitReadyTimeout = 60*1000; // milliseconds
 const int dbWaitStatusTimeout = 60*1000; // milliseconds
 const int dbRecoveryConnectionAttempts = 3;
-const int dbStartupConnectionAttempts = 60;
+const int dbStartupConnectionAttempts = 3;
 const int dbReplicationWriteTimeout = 60*1000; // milliseconds
 const int dbMaxAsyncRecoveryIterations = 10;
 const int dbTableHashSize = 1009;
@@ -2003,6 +2003,12 @@ class FASTDB_DLL_ENTRY dbReplicatedDatabase : public dbDatabase {
                          size_t dbExtensionQuantum = dbDefaultExtensionQuantum,
                          size_t dbInitIndexSize = dbDefaultInitIndexSize,
                          int nThreads = 1);
+
+    // for test
+    int getCurrentStatus() const;
+    void activeNode();
+    static void setDisableAutoToggle(bool yes);
+    static bool isDisableAutoToggle();
 };
 #endif
 

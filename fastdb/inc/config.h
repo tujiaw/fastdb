@@ -34,8 +34,8 @@
 //    - DEBUG_CHECK - disable trace message
 //    - DEBUG_TRACE_IMPORTANT - enable trace of important messages 
 //    - DEBUG_TRACE_ALL - enable trace of all messages 
-#define FASTDB_DEBUG DEBUG_TRACE_IMPORTANT
-//#define FASTDB_DEBUG DEBUG_TRACE_ALL
+// #define FASTDB_DEBUG DEBUG_TRACE_IMPORTANT
+ #define FASTDB_DEBUG DEBUG_TRACE_ALL
 
 // USE_NAMESPACES - place FastDB classes in separate namespace  
 // #define USE_NAMESPACES 1

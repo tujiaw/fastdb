@@ -1,14 +1,17 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fastdb", "fastdb.vcproj", "{1F657CF6-E52E-4C48-A896-1B45456271D4}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fastdb", "fastdb.vcxproj", "{1F657CF6-E52E-4C48-A896-1B45456271D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subsql", "subsqlprj\subsql.vcproj", "{E3DE41B3-0A3B-463A-885C-D965E04FBBC6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1F657CF6-E52E-4C48-A896-1B45456271D4} = {1F657CF6-E52E-4C48-A896-1B45456271D4}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subsql", "subsqlprj\subsql.vcxproj", "{E3DE41B3-0A3B-463A-885C-D965E04FBBC6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cli", "CLI\cli.vcproj", "{3E7EB66F-81C0-4390-A224-28B20F46447F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cli", "CLI\cli.vcxproj", "{3E7EB66F-81C0-4390-A224-28B20F46447F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "demo1", "..\demo1\demo1.vcxproj", "{B6C7443D-C82A-4309-8FC5-6E429C11BA78}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "replicationdemo", "..\replicationdemo\replicationdemo.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +61,30 @@ Global
 		{3E7EB66F-81C0-4390-A224-28B20F46447F}.Release|Win32.ActiveCfg = Release|Win32
 		{3E7EB66F-81C0-4390-A224-28B20F46447F}.Release|Win32.Build.0 = Release|Win32
 		{3E7EB66F-81C0-4390-A224-28B20F46447F}.Release|x64.ActiveCfg = Release|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Debug DLL|Win32.ActiveCfg = Debug|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Debug DLL|Win32.Build.0 = Debug|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Debug DLL|x64.ActiveCfg = Debug|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Debug|Win32.Build.0 = Debug|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Debug|x64.ActiveCfg = Debug|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Release DLL|Win32.ActiveCfg = Release|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Release DLL|Win32.Build.0 = Release|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Release DLL|x64.ActiveCfg = Release|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Release|Win32.ActiveCfg = Release|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Release|Win32.Build.0 = Release|Win32
+		{B6C7443D-C82A-4309-8FC5-6E429C11BA78}.Release|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug DLL|Win32.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug DLL|Win32.Build.0 = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug DLL|x64.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.Build.0 = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release DLL|Win32.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release DLL|Win32.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release DLL|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1841,7 +1841,7 @@ dbExprNode* dbCompiler::compileExpression(dbTableDescriptor* table, char const* 
 
 bool dbCompiler::compile(dbTableDescriptor* table, dbQuery& query)
 {
-    TRACE_MSG(("Compile query for table %s\n", table->name));
+    //TRACE_MSG(("Compile query for table %s\n", table->name));
     query.destroy();
     if (setjmp(abortCompilation) == 0) {
         this->table = table;
