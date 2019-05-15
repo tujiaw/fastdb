@@ -30,6 +30,7 @@ private slots:
     void onGetData();
     void onUpdateData();
     void onAutoToggle(int state);
+    void onRecovery();
     void onTimer();
 
 private:

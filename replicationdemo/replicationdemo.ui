@@ -107,6 +107,13 @@
       <number>0</number>
      </property>
      <item>
+      <widget class="QPushButton" name="pbRecovery">
+       <property name="text">
+        <string>Recovery</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pbGetData">
        <property name="text">
         <string>获取数据</string>

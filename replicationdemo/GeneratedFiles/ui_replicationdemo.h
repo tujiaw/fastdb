@@ -46,6 +46,7 @@ public:
     QPushButton *pbPrimary;
     QPushButton *pbClear;
     QHBoxLayout *horizontalLayout_2;
+    QPushButton *pbRecovery;
     QPushButton *pbGetData;
     QPushButton *pbUpdateData;
     QPlainTextEdit *teLog;
@@ -140,6 +141,11 @@ public:
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(-1, -1, -1, 0);
+        pbRecovery = new QPushButton(replicationdemoClass);
+        pbRecovery->setObjectName(QStringLiteral("pbRecovery"));
+
+        horizontalLayout_2->addWidget(pbRecovery);
+
         pbGetData = new QPushButton(replicationdemoClass);
         pbGetData->setObjectName(QStringLiteral("pbGetData"));
 
@@ -177,6 +183,7 @@ public:
         pbOpen->setText(QApplication::translate("replicationdemoClass", "\346\211\223\345\274\200", 0));
         pbPrimary->setText(QApplication::translate("replicationdemoClass", "\346\277\200\346\264\273\344\270\272\344\270\273\350\212\202\347\202\271", 0));
         pbClear->setText(QApplication::translate("replicationdemoClass", "\346\270\205\347\220\206\346\227\245\345\277\227", 0));
+        pbRecovery->setText(QApplication::translate("replicationdemoClass", "Recovery", 0));
         pbGetData->setText(QApplication::translate("replicationdemoClass", "\350\216\267\345\217\226\346\225\260\346\215\256", 0));
         pbUpdateData->setText(QApplication::translate("replicationdemoClass", "\346\233\264\346\226\260\346\225\260\346\215\256", 0));
     } // retranslateUi

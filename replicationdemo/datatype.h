@@ -15,13 +15,19 @@ struct Supplier {
     TYPE_DESCRIPTOR((KEY(company, INDEXED), FIELD(address)));
 };
 
+//struct Shipment {
+//    dbReference<Detail>   detail;
+//    dbReference<Supplier> supplier;
+//    int                  price;
+//    int                  quantity;
+//
+//    TYPE_DESCRIPTOR((KEY(detail, HASHED), KEY(supplier, HASHED),
+//        FIELD(price), FIELD(quantity)));
+//};
+
 struct Shipment {
-    dbReference<Detail>   detail;
-    dbReference<Supplier> supplier;
     int                  price;
     int                  quantity;
 
-    TYPE_DESCRIPTOR((KEY(detail, HASHED), KEY(supplier, HASHED),
-        FIELD(price), FIELD(quantity)));
+    TYPE_DESCRIPTOR((KEY(price, HASHED), FIELD(quantity)));
 };
-

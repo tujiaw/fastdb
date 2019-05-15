@@ -67,6 +67,7 @@ replicationdemo::replicationdemo(QWidget *parent)
     connect(ui.pbGetData, &QPushButton::clicked, this, &replicationdemo::onGetData);
     connect(ui.pbUpdateData, &QPushButton::clicked, this, &replicationdemo::onUpdateData);
     connect(ui.cbAutoToggle, &QCheckBox::stateChanged, this, &replicationdemo::onAutoToggle);
+    connect(ui.pbRecovery, &QPushButton::clicked, this, &replicationdemo::onRecovery);
     connect(GlobalSignal::instance(), &GlobalSignal::sigFastdbLog, this, &replicationdemo::sigLog);
     
     settings = new QSettings("config.ini", QSettings::IniFormat, this);
@@ -134,15 +135,6 @@ void replicationdemo::onOpen()
         if (db->open(pname, pname, nodeId, servers, serverList.size())) {
             this->isOpen = true;
             log("open fastdb success");
-            int totalSize = getTotalSize();
-            if (totalSize == 0) {
-                db->attach();
-                Shipment item;
-                item.price = 0;
-                item.quantity = 0;
-                db->insert(item);
-                db->detach();
-            }
         } else {
             log("open fastdb failed!");
         }
@@ -192,6 +184,15 @@ void replicationdemo::onAutoToggle(int state)
     dbReplicatedDatabase::setDisableAutoToggle(state != Qt::Checked);
 }
 
+void replicationdemo::onRecovery()
+{
+    if (isOpen) {
+        db->attach();
+        Defer defer([&]() { db->detach(); });
+        db->recovery();
+    }
+}
+
 void replicationdemo::onTimer()
 {
     if (db) {
@@ -218,14 +219,22 @@ void replicationdemo::updateDB()
     dbCursor<Shipment> cursor(dbCursorForUpdate);
     dbQuery q;
     q = "";
-    cursor.select(q);
-    do {
-        Shipment *item = cursor.get();
-        item->price = item->price + 1;
-        cursor.update();
-        break;
-    } while (cursor.next());
-    db->commit();
+    int count = cursor.select(q);
+    if (count == 0) {
+        Shipment ss;
+        ss.price = ++index;
+        ss.quantity = 100;
+        db->insert(ss);
+        db->commit();
+    } else {
+        do {
+            Shipment *item = cursor.get();
+            item->price = item->price + 1;
+            cursor.update();
+            db->commit();
+            break;
+        } while (cursor.next());
+    }
 }
 
 int replicationdemo::getTotalSize()
@@ -253,9 +262,10 @@ void replicationdemo::queryDB()
     dbCursor<Shipment> cursor;
     dbQuery q;
     q = "";
-    cursor.select(q);
-    do {
-        Shipment item = *cursor.get();
-        log(QString("queryDB price:%1").arg(item.price));
-    } while (cursor.next());
+    if (cursor.select(q) > 0) {
+        do {
+            Shipment item = *cursor.get();
+            log(QString("queryDB price:%1").arg(item.price));
+        } while (cursor.next());
+    }
 }

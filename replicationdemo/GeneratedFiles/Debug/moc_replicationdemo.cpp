@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_replicationdemo_t {
-    QByteArrayData data[13];
-    char stringdata[115];
+    QByteArrayData data[14];
+    char stringdata[126];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,11 +41,13 @@ QT_MOC_LITERAL(8, 65, 9),
 QT_MOC_LITERAL(9, 75, 12),
 QT_MOC_LITERAL(10, 88, 12),
 QT_MOC_LITERAL(11, 101, 5),
-QT_MOC_LITERAL(12, 107, 7)
+QT_MOC_LITERAL(12, 107, 10),
+QT_MOC_LITERAL(13, 118, 7)
     },
     "replicationdemo\0sigLog\0\0onOpen\0onPrimary\0"
     "onStandby\0onClear\0onLog\0onGetData\0"
-    "onUpdateData\0onAutoToggle\0state\0onTimer"
+    "onUpdateData\0onAutoToggle\0state\0"
+    "onRecovery\0onTimer"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,7 +57,7 @@ static const uint qt_meta_data_replicationdemo[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -63,18 +65,19 @@ static const uint qt_meta_data_replicationdemo[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x06 /* Public */,
+       1,    1,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   67,    2, 0x08 /* Private */,
-       4,    0,   68,    2, 0x08 /* Private */,
-       5,    0,   69,    2, 0x08 /* Private */,
-       6,    0,   70,    2, 0x08 /* Private */,
-       7,    1,   71,    2, 0x08 /* Private */,
-       8,    0,   74,    2, 0x08 /* Private */,
-       9,    0,   75,    2, 0x08 /* Private */,
-      10,    1,   76,    2, 0x08 /* Private */,
-      12,    0,   79,    2, 0x08 /* Private */,
+       3,    0,   72,    2, 0x08 /* Private */,
+       4,    0,   73,    2, 0x08 /* Private */,
+       5,    0,   74,    2, 0x08 /* Private */,
+       6,    0,   75,    2, 0x08 /* Private */,
+       7,    1,   76,    2, 0x08 /* Private */,
+       8,    0,   79,    2, 0x08 /* Private */,
+       9,    0,   80,    2, 0x08 /* Private */,
+      10,    1,   81,    2, 0x08 /* Private */,
+      12,    0,   84,    2, 0x08 /* Private */,
+      13,    0,   85,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
@@ -88,6 +91,7 @@ static const uint qt_meta_data_replicationdemo[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   11,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -107,7 +111,8 @@ void replicationdemo::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 6: _t->onGetData(); break;
         case 7: _t->onUpdateData(); break;
         case 8: _t->onAutoToggle((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 9: _t->onTimer(); break;
+        case 9: _t->onRecovery(); break;
+        case 10: _t->onTimer(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -147,13 +152,13 @@ int replicationdemo::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }
