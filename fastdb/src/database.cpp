@@ -8906,35 +8906,9 @@ dbFileTransactionLogger::RestoreStatus dbFileTransactionLogger::restore(dbDataba
 }
 
 //////////////////////////////////////////////////////////////////////////
-int dbReplicatedDatabase::getCurrentStatus() const
+int dbReplicatedDatabase::getStatus() const
 {
     return con[id].status;
-}
-
-void dbReplicatedDatabase::activeNode()
-{
-    if (con[id].status == ST_ACTIVE) {
-        return;
-    }
-
-    ReplicationRequest rr;
-    con[id].status = ST_ACTIVE;
-    for (int i = 0; i < nServers; i++) {
-        if (con[i].status == ST_ONLINE) {
-            con[i].status = ST_STANDBY;
-            rr.op = ReplicationRequest::RR_STATUS;
-            rr.nodeId = i;
-            rr.status = ST_STANDBY;
-            TRACE_IMSG(("Send STANDBY status to node %d\n", i));
-            writeReq(i, rr);
-        } else if (con[i].status == ST_STANDBY) {
-            rr.op = ReplicationRequest::RR_CHANGE_ACTIVE_NODE;
-            rr.nodeId = id;
-            con[i].status = rr.status = ST_RECOVERED;
-            TRACE_IMSG(("Send CHANGE_ACTIVE_NODE message to node %d\n", i));
-            writeReq(i, rr);
-        }
-    }
 }
 
 void dbReplicatedDatabase::setDisableAutoToggle(bool yes)

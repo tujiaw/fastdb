@@ -1182,7 +1182,7 @@ class FASTDB_DLL_ENTRY dbDatabase
     size_t initIndexSize;
     offs_t freeSpaceReuseThreshold;
 
-  protected:
+  public:
     static size_t internalObjectSize[];
 
     dbThreadPool threadPool;
@@ -2005,8 +2005,7 @@ class FASTDB_DLL_ENTRY dbReplicatedDatabase : public dbDatabase {
                          int nThreads = 1);
 
     // for test
-    int getCurrentStatus() const;
-    void activeNode();
+    int getStatus() const;
     static void setDisableAutoToggle(bool yes);
     static bool isDisableAutoToggle();
 };
